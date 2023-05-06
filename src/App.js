@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+
 
 
     }
@@ -18,8 +18,8 @@ class App extends React.Component {
     return (
       <>
         <Header />
-        <Main 
-      <Button variant="primary" onClick={ }>Close</Button>
+        <Main
+      // <Button variant="primary" onClick={this.state}>Close</Button>
         <Footer />
       </>
     )
