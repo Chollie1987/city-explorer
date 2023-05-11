@@ -10,7 +10,10 @@ class Main extends React.Component {
         this.state = {
             displayInfo: false,
             city: '',
-            cityName: ''
+            cityName: '',
+            mapUrl: '',
+            lat: '',
+            lon: ''
         }
     }
 
@@ -22,9 +25,16 @@ class Main extends React.Component {
         e.preventDefault();
         let url = `http://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.city}&format=json`
         console.log(url);
+        try {
         const response = await axios.get(url)
-        this.setState({displayInfo: true,
-        cityName: response.data[0].display_name})
+        const location = response.data[0]
+        const mapUrl = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${location.lat},${location.lon}&zoom=12`
+            this.setState({
+                displayInfo: true, hasError: false,
+        cityName: response.data[0].display_name, mapUrl, lat:location.lat, lon:location.lon})
+        } catch (e){
+            this.setState({hasError:true})
+        }
     }
 
     render() {
@@ -38,13 +48,16 @@ class Main extends React.Component {
             </Form.Group>
             <Button type="submit">Check it out!</Button>
         </Form>
-        <Map/>
        
         {this.state.displayInfo &&
             <>
-                 <p>{this.state.cityName}</p>
+            <h6>
+            {`${this.state.cityName} Lat:${this.state.lat} Lon:${this.state.lon}`}
+            </h6>
+            <Map mapUrl={this.state.mapUrl}/>
             </>
         }
+        {this.state.hasError && <h6>could not complete request</h6>}
         </>
         )
     }

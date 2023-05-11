@@ -1,3 +1,17 @@
+# city-explorer
+
+**Christina Hollie**
+
+## Overview
+
+## Getting Started
+
+## Architecture
+
+## Change Log
+
+## Credit and Collaboration
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -70,3 +84,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 ![Figma wireframe](/Screenshot%20(40).png)
+
