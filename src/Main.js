@@ -3,6 +3,7 @@ import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import Map from "./Map";
 import axios from "axios";
+import Weather from "./Weather";
 
 class Main extends React.Component {
     constructor(props) {
@@ -13,12 +14,24 @@ class Main extends React.Component {
             cityName: '',
             mapUrl: '',
             lat: '',
-            lon: ''
+            lon: '',
+            weatherData: []
         }
     }
 
     handleInput = (e) => {
         this.setState({city: e.target.value})
+    }
+
+    getWeather = async() => {
+        let url = `${process.env.REACT_APP_SERVER_URL}weather?searchQuery=${this.state.city}`
+        try {
+            const response = await axios.get(url)
+            this.setState({weatherData:response.data})
+        } catch (e) {
+            this.setState({ hasError: true })
+        
+        }
     }
 
     handleExplore = async (e) => {
@@ -32,6 +45,7 @@ class Main extends React.Component {
             this.setState({
                 displayInfo: true, hasError: false,
         cityName: response.data[0].display_name, mapUrl, lat:location.lat, lon:location.lon})
+        this.getWeather()
         } catch (e){
             this.setState({hasError:true})
         }
@@ -57,6 +71,7 @@ class Main extends React.Component {
             <Map mapUrl={this.state.mapUrl}/>
             </>
         }
+        {this.state.weatherData.length > 0 && <Weather weatherData={this.state.weatherData} />}
         {this.state.hasError && <h6>could not complete request</h6>}
         </>
         )
