@@ -5,6 +5,7 @@ import Map from "./Map";
 import axios from "axios";
 import Weather from "./Weather";
 
+
 class Main extends React.Component {
     constructor(props) {
         super(props);
@@ -15,7 +16,8 @@ class Main extends React.Component {
             mapUrl: '',
             lat: '',
             lon: '',
-            weatherData: []
+            weatherData: [],
+            movieData: []
         }
     }
 
@@ -23,11 +25,12 @@ class Main extends React.Component {
         this.setState({city: e.target.value})
     }
 
-    getWeather = async() => {
-        let url = `${process.env.REACT_APP_SERVER_URL}weather?searchQuery=${this.state.city}`
+    getWeather = async(lat, lon) => {
+        // let url = `https://api.weatherbit.io/v2.0/forcast/daily?lat=35.7796&lon=-78.6382&key=${process.env.REACT_APP_WEATHERBIT_KEY}`
         try {
+            let url = `${process.env.REACT_APP_SERVER_URL}/weather?lat=${lat}&lon=${lon}`
             const response = await axios.get(url)
-            this.setState({weatherData:response.data})
+            this.setState({weatherData:response.data},()=> console.log(this.state.weatherData))
         } catch (e) {
             this.setState({ hasError: true })
         
@@ -45,9 +48,21 @@ class Main extends React.Component {
             this.setState({
                 displayInfo: true, hasError: false,
         cityName: response.data[0].display_name, mapUrl, lat:location.lat, lon:location.lon})
-        this.getWeather()
+        this.getWeather(location.lat, location.lon)
         } catch (e){
             this.setState({hasError:true})
+        }
+    }
+
+    getMovieData = async() => {
+        let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIEDB_SERVER_KEY}&query=${this.state.movieData}`
+        try {
+            const response = await axios.get(url)
+            this.setState({movieData:response.data})
+        } catch (e) {
+            this.setState({
+                alertError: true
+            })
         }
     }
 
