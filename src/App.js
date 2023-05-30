@@ -23,7 +23,6 @@ class App extends React.Component {
         <Header />
         <Main />
         <Footer />
-        <Movies />
       </Container>
       </>
     )
