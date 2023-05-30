@@ -2,8 +2,11 @@ import React from "react";
 
 class Movies extends React.Component {
     render() {
+        
         return (
-            <p>{this.props.movieData}</p>
+            <>
+            {this.props.movieData.map(movie => <p>{movie.title}</p>)}
+            </>
         )
     }
 }
